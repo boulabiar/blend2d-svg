@@ -84,7 +84,8 @@ int main(int argc, char **argv)
 
 	printf("Size: %ld\n", mapped->size());
 	ByteSpan mappedSpan(mapped->data(), mapped->size());
-    gDoc = SVGFactory::createDOM(mappedSpan, &gFontHandler);
+        gDoc = SVGFactory::createFromChunk(mappedSpan, &gFontHandler, CAN_WIDTH, CAN_HEIGHT, 300.0);
+
 
     auto c_dom = std::chrono::steady_clock::now();
 	auto c_duration = std::chrono::duration_cast<std::chrono::microseconds>(c_dom - c_start);
@@ -116,10 +117,6 @@ int main(int argc, char **argv)
 	BLRect sceneFrame = gDoc->getBBox();
 	printf("viewport: %3.0f %3.0f %3.0f %3.0f\n", sceneFrame.x, sceneFrame.y, sceneFrame.w, sceneFrame.h);
 
-	sceneFrame.w = 1600;
-	sceneFrame.h = 1200;
-	//sceneFrame.w = 800;
-	//sceneFrame.h = 600;
 	
 	// At this point, we could just do the render, but we go further
 	// and create a viewport, which will handle the scaling and translation
